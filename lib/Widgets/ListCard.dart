@@ -11,7 +11,7 @@ class _TodoCardState extends State<TodoCard> {
     return    
     Card(
                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 
                 ),
               shadowColor: Colors.white,
@@ -36,7 +36,7 @@ class _TodoCardState extends State<TodoCard> {
                   style: TextStyle(
                   color:Colors.grey[900],
                   fontSize: 18.0,
-                  fontWeight: FontWeight.bold
+                  
                     ),
                   ),
                

@@ -10,7 +10,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[10],
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
         },
@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.blue[900],
         elevation: 20.0,
       ),
-      appBar: AppBar(backgroundColor: Colors.grey,
+      appBar: AppBar(backgroundColor: Colors.white,
       title: Text(''),
       centerTitle: true,
       elevation: 0.0,
@@ -54,9 +54,8 @@ class _HomeState extends State<Home> {
                  shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                            shadowColor: Colors.white,
-
-              elevation: 10,
+              // shadowColor: Colors.white,
+              // elevation: 10,
               child: InkWell(
               splashColor: Colors.blue.withAlpha(30),
             //   onTap: () {
@@ -106,7 +105,6 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               shadowColor: Colors.white,
-              elevation: 5,
               child: InkWell(
               splashColor: Colors.blue[400],
               onTap: () {
@@ -153,7 +151,6 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               shadowColor: Colors.white,
-              elevation: 10,
               child: InkWell(
               splashColor: Colors.blue.withAlpha(30),
             //   onTap: () {
@@ -198,7 +195,7 @@ class _HomeState extends State<Home> {
             ],
               ),
             ),  
-            SizedBox(height:20.0),
+            SizedBox(height:40.0),
             Text( 'My Tasks',
             style: TextStyle(
             color:Colors.grey[500],
