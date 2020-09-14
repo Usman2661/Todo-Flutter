@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Widgets/CatagoryList.dart';
+import 'package:todo/Widgets/Navigation.dart';
 import 'package:todo/Widgets/TodoList.dart';
 
 class Home extends StatefulWidget {
@@ -22,7 +24,13 @@ class _HomeState extends State<Home> {
       title: Text(''),
       centerTitle: true,
       elevation: 0.0,
+      iconTheme: new IconThemeData(color: Colors.grey[700]),
+      actions: <Widget>[
+        IconButton(icon: Icon(Icons.search), onPressed: () {}),
+        IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+      ],
       ),
+      drawer: Navigation(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(25.0,0.0,25.0,0.0),
         child: Container(
@@ -46,155 +54,7 @@ class _HomeState extends State<Home> {
             ),
             ),
             SizedBox(height: 20.0),
-            SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-            children: <Widget>[
-              Card(
-                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              // shadowColor: Colors.white,
-              // elevation: 10,
-              child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-            //   onTap: () {
-            //   print('Card tapped.');
-            //  },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15.0,15.0,70.0,10.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                  Text(
-                    '10 Tasks',
-                  style: TextStyle(
-                  color:Colors.grey[500],
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                    Text(
-                    'Business',
-                  style: TextStyle(
-                  color:Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                    
-                  ),
-                  SizedBox(height: 10.0),
-                  SizedBox(
-                      child: LinearProgressIndicator(
-                      backgroundColor: Colors.blue,
-                      value: 0.2,
-                    ), 
-                      height: 10.0,
-                      width: 100.0,
-                  )
-               
-                ],),
-              )
-            ),
-            ),
-
-                 Card(
-                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              shadowColor: Colors.white,
-              child: InkWell(
-              splashColor: Colors.blue[400],
-              onTap: () {
-              print('Card tapped.');
-             },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15.0,15.0,70.0,10.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                  Text(
-                    '19 Tasks',
-                  style: TextStyle(
-                  color:Colors.grey[500],
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                    Text(
-                    'Personal',
-                  style: TextStyle(
-                  color:Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                 SizedBox(
-                      child: LinearProgressIndicator(
-                      backgroundColor: Colors.blue,
-                      value: 0.8,
-                    ), 
-                      height: 10.0,
-                      width: 100.0,
-                  )
-                ],),
-              )
-            ),
-            ),
-             Card(
-                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              shadowColor: Colors.white,
-              child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-            //   onTap: () {
-            //   print('Card tapped.');
-            //  },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15.0,15.0,70.0,10.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                  Text(
-                    '8 Tasks',
-                  style: TextStyle(
-                  color:Colors.grey[500],
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                    Text(
-                    'Home',
-                  style: TextStyle(
-                  color:Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                 SizedBox(
-                      child: LinearProgressIndicator(
-                      backgroundColor: Colors.blue,
-                      value: 0.4,
-                    ), 
-                      height: 10.0,
-                      width: 100.0,
-                  )
-                ],),
-              )
-            ),
-            ),
-            ],
-              ),
-            ),  
+            CatagoryList(),
             SizedBox(height:40.0),
             Text( 'My Tasks',
             style: TextStyle(
