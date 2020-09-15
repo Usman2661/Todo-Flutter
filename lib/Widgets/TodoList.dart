@@ -27,8 +27,7 @@ class _TodoListState extends State<TodoList> {
            TodoCard(),
           SizedBox(height:5.0),
            TodoCard(),
-          SizedBox(height:5.0),
-          
+          SizedBox(height:5.0),  
         ],
       ); 
   }

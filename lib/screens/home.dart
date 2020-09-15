@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/Widgets/CatagoryList.dart';
 import 'package:todo/Widgets/Navigation.dart';
 import 'package:todo/Widgets/TodoList.dart';
+import 'package:todo/screens/createTodo.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,15 +13,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+           Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => CreateTodo()),
+          );
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue[900],
         elevation: 20.0,
       ),
-      appBar: AppBar(backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.grey[50],
       title: Text(''),
       centerTitle: true,
       elevation: 0.0,
@@ -32,7 +37,7 @@ class _HomeState extends State<Home> {
       ),
       drawer: Navigation(),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(25.0,0.0,25.0,0.0),
+        padding: EdgeInsets.fromLTRB(25.0,0.0,25.0,0.0),
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

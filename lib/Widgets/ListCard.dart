@@ -8,23 +8,9 @@ class TodoCard extends StatefulWidget {
 
 class _TodoCardState extends State<TodoCard> {
 
-    int _radioValue = 0;
     bool isChecked = false;
 
-  void _handleRadioValueChange(int value) {
-    setState(() {
-      _radioValue = value;
-
-      // switch (_radioValue) {
-      //   case 0:
-      //     break;
-      //   case 1:
-      //     break;
-      //   case 2:
-      //     break;
-      // }
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +24,11 @@ class _TodoCardState extends State<TodoCard> {
               child: InkWell(
               splashColor: Colors.blue.withAlpha(30),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15.0,10.0,0.0,10.0),
+                padding: const EdgeInsets.fromLTRB(15.0,8.0,0.0,8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                
+                  children: <Widget>[ 
                 CircularCheckBox(
                 value: isChecked,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -53,8 +38,9 @@ class _TodoCardState extends State<TodoCard> {
                     });
                 },
                   checkColor: Colors.white,
-                  inactiveColor: Colors.purple,
+                  inactiveColor: Colors.pink[600],
                   activeColor: Colors.grey[500],
+          
               ),
                   SizedBox(width: 10.0),
                     Text(
@@ -62,6 +48,7 @@ class _TodoCardState extends State<TodoCard> {
                   style: TextStyle(
                   color:Colors.grey[900],
                   fontSize: 18.0,
+                  decoration: isChecked ? TextDecoration.lineThrough : null,
                     ),
                   ),
                 ],),
