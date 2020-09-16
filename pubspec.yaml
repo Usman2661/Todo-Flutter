@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   circular_check_box: ^1.0.4
+  http: ^0.12.2
+
 
 
 
