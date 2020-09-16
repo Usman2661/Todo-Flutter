@@ -173,15 +173,75 @@ class _CreateTodoState extends State<CreateTodo> {
             children: <Widget>[
               RaisedButton(
               onPressed: () {
-                Navigator.pop(context);
+                showDialog(context: context, child:
+                   AlertDialog(
+                    title:  Center(child: Text("Additional Details")),
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                    content:
+                    Container(
+                    height: 140.0,
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,  
+                    children: <Widget>[
+                    TextField(
+                    autofocus: true,
+                    cursorColor: Colors.blue[900],
+                    cursorWidth: 5.0,
+                    style: 
+                    TextStyle(
+                    fontSize: 20.0,
+                    height: 2.0,
+                    color: Colors.grey[700],
+                    decoration: TextDecoration.none                
+                    ),
+                   decoration:  InputDecoration.collapsed(
+                    hintText: 'Enter Your Name',
+                    border: InputBorder.none,
+                    ),
+                    ),
+                    SizedBox(height:20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                    RaisedButton(
+                        elevation: 2.0,
+                        color: Colors.blue[900],
+                        onPressed: () {},
+                        child:
+                        Row(
+                        children: <Widget>[
+                        Text(
+                          'Ok',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),    
+                        // SizedBox(width: 10.0),
+                        // Icon(Icons.expand_less, color: Colors.white,),
+                        ],
+                        ),      
+                        padding: EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
+                        shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    ),
+                    ],
+                    )
+                    ],
+                    ), 
+                    )
+                  )
+              );
               },
               elevation: 2.0,
               color: Colors.blue[900],
               child:
               Row(
-        children: <Widget>[
+              children: <Widget>[
               Text(
-                'Create Task',
+                'New Task',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
