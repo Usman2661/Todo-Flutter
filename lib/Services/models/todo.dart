@@ -14,7 +14,12 @@ Todo({this.id, this.title, this.completed, this.catagory, this.username});
 
   factory Todo.fromJson(Map<String, dynamic> map) {
     return Todo(
-        id: map["id"], title: map["title"], completed: map["completed"], catagory: map["catagory"], username: map["username"] );
+        id: map["id"],
+        title: map["title"],
+        completed: map["completed"], 
+        catagory: map["catagory"],
+        username: map["username"]
+    );
   }
 
   Map<String, dynamic> toJson() {

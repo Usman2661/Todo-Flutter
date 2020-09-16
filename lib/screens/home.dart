@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Services/api/api_todo.dart';
+import 'package:todo/Services/models/todo.dart';
 import 'package:todo/Widgets/CatagoryList.dart';
 import 'package:todo/Widgets/Navigation.dart';
 import 'package:todo/Widgets/TodoList.dart';
+import 'package:todo/Widgets/todoListing.dart';
 import 'package:todo/screens/createTodo.dart';
 
 class Home extends StatefulWidget {
@@ -10,8 +13,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final TodoApiService todoApi = TodoApiService();
+  List<Todo> todos;
+
+
+  Future loadList() {
+    Future<List<Todo>> todos = todoApi.getTodos();
+    todos.then((todos) {
+      setState(() {
+        this.todos = todos;
+      });
+    });
+    return todos;
+  }
+  
+
   @override
   Widget build(BuildContext context) {
+
+    if(todos == null) {
+      todos = List<Todo>();
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       floatingActionButton: FloatingActionButton(
@@ -43,7 +67,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          Text( 'Whats up, Usman!',
+          Text( 'Whats up, Usman',
           style: TextStyle(
             color:Colors.grey[800],
             fontSize: 28.0,
@@ -69,7 +93,22 @@ class _HomeState extends State<Home> {
             ),
             ),
             SizedBox(height:20.0),
-            Expanded(child: TodoList())
+
+            // Expanded(child: TodoList())
+
+            Expanded(child: 
+            new Center(
+            child: new FutureBuilder(
+              future: loadList(),
+              builder: (context, snapshot) {
+                return todos.length > 0? new TodoList(todos: todos):
+                new Center(child:
+                new Text('No data found, tap plus button to add!', style: Theme.of(context).textTheme.title));
+              },
+            )
+          ),
+            ),
+            
           ],
           )
             
