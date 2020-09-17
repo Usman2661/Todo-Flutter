@@ -29,6 +29,13 @@ class _HomeState extends State<Home> {
   }
   
 
+  
+  @override
+  void initState() {
+    super.initState();
+    loadList();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -40,10 +47,11 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           Navigator.push(
-           context,
-           MaterialPageRoute(builder: (context) => CreateTodo()),
-          );
+          //  Navigator.push(
+          //  context,
+          //  MaterialPageRoute(builder: (context) => CreateTodo()),
+          // );
+          loadList();
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue[900],
@@ -94,20 +102,25 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height:20.0),
 
-            // Expanded(child: TodoList())
 
-            Expanded(child: 
-            new Center(
-            child: new FutureBuilder(
-              future: loadList(),
-              builder: (context, snapshot) {
-                return todos.length > 0? new TodoList(todos: todos):
+             Expanded(child:
+                todos.length > 0? TodoList(todos: todos):
                 new Center(child:
-                new Text('No data found, tap plus button to add!', style: Theme.of(context).textTheme.title));
-              },
-            )
-          ),
-            ),
+                new Text('No Todos Found', style: Theme.of(context).textTheme.title)),
+          )
+
+          //   Expanded(child: 
+          //   new Center(
+          //   child: new FutureBuilder(
+          //     future: loadList(),
+          //     builder: (context, snapshot) {
+          //       return todos.length > 0? new TodoList(todos: todos):
+          //       new Center(child:
+          //       new Text('No data found, tap plus button to add!', style: Theme.of(context).textTheme.title));
+          //     },
+          //   )
+          // ),
+          //   ),
             
           ],
           )

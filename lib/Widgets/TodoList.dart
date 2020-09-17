@@ -3,17 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:todo/Services/models/todo.dart';
 import 'package:todo/Widgets/ListCard.dart';
 
-class TodoList extends StatelessWidget {
+class TodoList extends StatefulWidget {
 
   final List<Todo> todos;
   TodoList({Key key, this.todos}) : super(key: key);
+
+  @override
+  _TodoListState createState() => _TodoListState();
+}
+
+class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
     return  
 
       ListView.builder(
-                itemCount: todos == null ? 0 : todos.length,
+                itemCount:  widget.todos == null ? 0 : widget.todos.length,
                 itemBuilder: (BuildContext context, int index) {
                   return
                         Card(
@@ -31,10 +37,10 @@ class TodoList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[ 
                         CircularCheckBox(
-                        value: todos[index].completed,
+                        value: widget.todos[index].completed,
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         onChanged: (value) {
-                          todos[index].completed = value;
+                          widget.todos[index].completed = value;
                         },
                           checkColor: Colors.white,
                           inactiveColor: Colors.pink[600],
@@ -43,11 +49,11 @@ class TodoList extends StatelessWidget {
                       ),
                           SizedBox(width: 10.0),
                             Text(
-                            todos[index].title,
+                            widget.todos[index].title,
                           style: TextStyle(
                           color:Colors.grey[900],
                           fontSize: 18.0,
-                          decoration: todos[index].completed ? TextDecoration.lineThrough : null,
+                          decoration: widget.todos[index].completed ? TextDecoration.lineThrough : null,
                             ),
                           ),
                         ],),

@@ -4,10 +4,11 @@ import 'package:http/http.dart';
 import 'package:todo/Services/models/todo.dart';
 
 class TodoApiService {
-  final String baseUrl = "http://192.168.1.15:8080/todos";
+  final String baseUrl = "http://192.168.1.15:3000/todos";
   // Client client = Client();
 
  Future<List<Todo>> getTodos() async {
+   
     Response res = await get(baseUrl);
 
     if (res.statusCode == 200) {
