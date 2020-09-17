@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:todo/Services/api/api_todo.dart';
 import 'package:todo/Services/models/todo.dart';
@@ -18,8 +20,8 @@ class _HomeState extends State<Home> {
   List<Todo> todos;
 
 
-  Future loadList() {
-    Future<List<Todo>> todos = todoApi.getTodos();
+  Future loadTodos() {
+    Future<List<Todo>> todos =  todoApi.getTodos();
     todos.then((todos) {
       setState(() {
         this.todos = todos;
@@ -27,13 +29,17 @@ class _HomeState extends State<Home> {
     });
     return todos;
   }
+
+  refreshOnUpdate() {
+  loadTodos();
+  }
   
 
   
   @override
   void initState() {
     super.initState();
-    loadList();
+    loadTodos();
   }
 
   @override
@@ -43,15 +49,21 @@ class _HomeState extends State<Home> {
       todos = List<Todo>();
     }
 
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //  Navigator.push(
-          //  context,
-          //  MaterialPageRoute(builder: (context) => CreateTodo()),
-          // );
-          loadList();
+           Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => CreateTodo()),
+          ).then((_) {
+
+          Timer(Duration(seconds: 1), () {
+               loadTodos();
+          });
+
+        });
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue[900],
@@ -104,7 +116,7 @@ class _HomeState extends State<Home> {
 
 
              Expanded(child:
-                todos.length > 0? TodoList(todos: todos):
+                todos.length > 0? TodoList(todos: todos , notifyParent: refreshOnUpdate(),):
                 new Center(child:
                 new Text('No Todos Found', style: Theme.of(context).textTheme.title)),
           )

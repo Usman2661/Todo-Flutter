@@ -1,12 +1,16 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/Services/api/api_todo.dart';
 import 'package:todo/Services/models/todo.dart';
 import 'package:todo/Widgets/ListCard.dart';
+import 'package:todo/screens/home.dart';
 
 class TodoList extends StatefulWidget {
 
   final List<Todo> todos;
-  TodoList({Key key, this.todos}) : super(key: key);
+  final Function() notifyParent;
+  TodoList({Key key, this.todos , @required this.notifyParent}) : super(key: key);
+
 
   @override
   _TodoListState createState() => _TodoListState();
@@ -14,11 +18,12 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
 
+  final TodoApiService todoApi = TodoApiService();
+
   @override
   Widget build(BuildContext context) {
     return  
-
-      ListView.builder(
+    ListView.builder(
                 itemCount:  widget.todos == null ? 0 : widget.todos.length,
                 itemBuilder: (BuildContext context, int index) {
                   return
@@ -33,19 +38,30 @@ class _TodoListState extends State<TodoList> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(15.0,8.0,0.0,8.0),
                         child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[ 
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[ 
                         CircularCheckBox(
                         value: widget.todos[index].completed,
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         onChanged: (value) {
-                          widget.todos[index].completed = value;
+                        
+                          todoApi.updateTodo(widget.todos[index].id,
+                           Todo(
+                             title:widget.todos[index].title ,
+                             completed: value,
+                             username:widget.todos[index].username,
+                             catagory:widget.todos[index].catagory
+                            ) 
+                           );
+
+                          // widget.notifyParent();
+
                         },
                           checkColor: Colors.white,
                           inactiveColor: Colors.pink[600],
                           activeColor: Colors.grey[500],
-                  
+                
                       ),
                           SizedBox(width: 10.0),
                             Text(

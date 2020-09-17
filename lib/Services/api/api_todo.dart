@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:todo/Services/models/todo.dart';
 
 class TodoApiService {
-  final String baseUrl = "http://192.168.1.15:3000/todos";
+  final String baseUrl = "http://192.168.1.15:8080/todos";
   // Client client = Client();
 
  Future<List<Todo>> getTodos() async {
@@ -20,55 +20,58 @@ class TodoApiService {
     }
   }
 
-  // Future<List<Todo>> createTodo(Todo data) async {
-  //   // final response = await client.post(
-  //   //   "$baseUrl",
-  //   //   headers: {"content-type": "application/json"},
-  //   //   body: todoToJson(data),
-  //   // );
-  //   // if (response.statusCode == 201) {
-  //   //   return response.body;
-  //   // } else {
-  //   //   return false;
-  //   // }
+Future<Todo> createTodo(Todo todo ) async {
+    Map data = {
+      'title': todo.title,
+      'completed': todo.completed,
+      'catagory': todo.catagory,
+      'username': todo.username
+    };
 
-  //   try {
-  //         Response response = await post("$baseUrl",
-  //            headers: {"content-type": "application/json"},
-  //             body: todoToJson(data),
-  //         );
+    final Response response = await post(
+      baseUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    if (response.statusCode == 201) {
+      return Todo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to Create Task');
+    }
+  }
 
-  //         return todoFromJson(response.body);
-  //   }
-  //   catch(error){
-  //     return error;
-  //   }
-  // }
+  Future<Todo> updateTodo(int id, Todo todo) async {
+    Map data = {
+     'title': todo.title,
+     'completed': todo.completed,
+     'catagory': todo.catagory,
+     'username': todo.username
+    };
 
-  // Future<bool> updateProfile(Profile data) async {
-  //   final response = await client.put(
-  //     "$baseUrl/api/profile/${data.id}",
-  //     headers: {"content-type": "application/json"},
-  //     body: profileToJson(data),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+    final Response response = await put(
+      '$baseUrl/$id',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    if (response.statusCode == 200) {
+      return Todo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to update task');
+    }
+  }
 
-  // Future<bool> deleteProfile(int id) async {
-  //   final response = await client.delete(
-  //     "$baseUrl/api/profile/$id",
-  //     headers: {"content-type": "application/json"},
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  Future<void> deleteTodo(int id) async {
+    Response res = await delete('$baseUrl/$id');
 
+    if (res.statusCode == 200) {
+      print("Case deleted");
+    } else {
+      throw "Failed to delete a case.";
+    }
 
+  }
 }

@@ -1,5 +1,8 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/Services/api/api_todo.dart';
+import 'package:todo/Services/models/todo.dart';
+
 
 class CreateTodo extends StatefulWidget {
   @override
@@ -8,7 +11,16 @@ class CreateTodo extends StatefulWidget {
 
 class _CreateTodoState extends State<CreateTodo> {
 
+
+  final TodoApiService todoApi = TodoApiService();
+  
+  bool completed = false;
   bool isChecked = false;
+  String title;
+  final _taskController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _createTaskFormKey = GlobalKey<FormState>();
+  String catagory = 'Personal';
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +31,10 @@ class _CreateTodoState extends State<CreateTodo> {
      Padding(
        padding: const EdgeInsets.fromLTRB(40.0,12.0,40.0,12.0),
        child: Container(
-        child: 
-        Column(
+        child: Form
+        (
+          key:_createTaskFormKey,
+          child:Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
         Padding(
@@ -54,10 +68,21 @@ class _CreateTodoState extends State<CreateTodo> {
             scrollDirection: Axis.vertical,
             child: Column(children: <Widget>[
 
-               TextField(
+              TextFormField(
               autofocus: true,
               cursorColor: Colors.blue[900],
               cursorWidth: 5.0,
+              controller: _taskController,
+       
+               validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter task';
+              }
+              return null;
+            },
+            onChanged: (value) {
+            
+            },
               style: 
               TextStyle(
               fontSize: 25.0,
@@ -65,8 +90,12 @@ class _CreateTodoState extends State<CreateTodo> {
               color: Colors.grey[700],
               decoration: TextDecoration.none                
               ),
-             decoration:  InputDecoration.collapsed(
-              hintText: 'Enter New Task',
+             decoration:  InputDecoration(
+             errorStyle: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold
+              ),
+             hintText: 'Enter New Task',
               border: InputBorder.none,
               ),
               ),
@@ -74,7 +103,7 @@ class _CreateTodoState extends State<CreateTodo> {
               Row(children: <Widget>[
               RaisedButton(
               onPressed: () {
-                // Navigator.pop(context);
+                Navigator.pop(context);
               },
               elevation: 2.0,
               color: Colors.grey[50],
@@ -173,67 +202,98 @@ class _CreateTodoState extends State<CreateTodo> {
             children: <Widget>[
               RaisedButton(
               onPressed: () {
-                showDialog(context: context, child:
-                   AlertDialog(
-                    title:  Center(child: Text("Additional Details")),
-                    shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                    content:
-                    Container(
-                    height: 140.0,
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,  
-                    children: <Widget>[
-                    TextField(
-                    autofocus: true,
-                    cursorColor: Colors.blue[900],
-                    cursorWidth: 5.0,
-                    style: 
-                    TextStyle(
-                    fontSize: 20.0,
-                    height: 2.0,
-                    color: Colors.grey[700],
-                    decoration: TextDecoration.none                
-                    ),
-                   decoration:  InputDecoration.collapsed(
-                    hintText: 'Enter Your Name',
-                    border: InputBorder.none,
-                    ),
-                    ),
-                    SizedBox(height:20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                    RaisedButton(
-                        elevation: 2.0,
-                        color: Colors.blue[900],
-                        onPressed: () {},
-                        child:
-                        Row(
-                        children: <Widget>[
-                        Text(
-                          'Ok',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),    
-                        // SizedBox(width: 10.0),
-                        // Icon(Icons.expand_less, color: Colors.white,),
-                        ],
-                        ),      
-                        padding: EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
-                        shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    ),
-                    ],
-                    )
-                    ],
-                    ), 
-                    )
-                  )
-              );
+                  if (_createTaskFormKey.currentState.validate()) {
+  
+                  _createTaskFormKey.currentState.save();
+                  todoApi.createTodo(
+                    Todo(
+                      title: _taskController.text,
+                      completed: completed,
+                      catagory: catagory,
+                      username: 'Usman',
+                  ));
+                  
+                  Navigator.pop(context, true) ;
+                }
+                                
+
+                  // if (title != null ){
+                  //       showDialog(context: context, child:
+                  //  AlertDialog(
+                  //   title:  Center(child: Text("Additional Details")),
+                  //   shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                  //   content:
+                  //   Container(
+                  //   height: 140.0,
+                  //   child: Column(
+                  //   mainAxisAlignment: MainAxisAlignment.start,  
+                  //   children: <Widget>[
+                  //   TextFormField(
+                  //   autofocus: true,
+                  //   cursorColor: Colors.blue[900],
+                  //   cursorWidth: 5.0,
+                  //   controller: _usernameController,
+                  //   validator: (value) {
+                  //   if (value.isEmpty) {
+                  //     return 'Please enter task';
+                  //   }
+                  //   return null;
+                  // },
+                  // onChanged: (value) {
+                  
+                  // },
+                  //   style: 
+                  //   TextStyle(
+                  //   fontSize: 20.0,
+                  //   height: 2.0,
+                  //   color: Colors.grey[700],
+                  //   decoration: TextDecoration.none                
+                  //   ),
+                  //  decoration:  InputDecoration.collapsed(
+                  //   hintText: 'Enter Your Name',
+                  //   border: InputBorder.none,
+                  //   ),
+                  //   ),
+                  //   SizedBox(height:20.0),
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: <Widget>[
+                  //   RaisedButton(
+                  //       elevation: 2.0,
+                  //       color: Colors.blue[900],
+                  //       onPressed: () {},
+                  //       child:
+                  //       Row(
+                  //       children: <Widget>[
+                  //       Text(
+                  //         'Ok',
+                  //         style: TextStyle(
+                  //           color: Colors.white,
+                  //           fontSize: 18.0,
+                  //         ),
+                  //           ),    
+                  //           // SizedBox(width: 10.0),
+                  //           // Icon(Icons.expand_less, color: Colors.white,),
+                  //           ],
+                  //           ),      
+                  //           padding: EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
+                  //           shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //       ),
+                  //       ),
+                  //       ],
+                  //       )
+                  //       ],
+                  //       ), 
+                  //       )
+                  //     )
+                  // );
+
+                  // }
+                 
+
+            
               },
               elevation: 2.0,
               color: Colors.blue[900],
@@ -260,7 +320,9 @@ class _CreateTodoState extends State<CreateTodo> {
           ),
         )
     ],
-    ), 
+    ),  
+    )
+        
     ),
      ),
     );
