@@ -23,7 +23,7 @@ class _CreateTodoState extends State<CreateTodo> {
   final _taskController = TextEditingController();
   final _usernameController = TextEditingController();
   final _createTaskFormKey = GlobalKey<FormState>();
-  String catagory = 'Personal';
+  List <String> catagories = ['Personal', 'Business', 'Work' , 'Home' , 'Fitness' , 'Daily' , 'Bills' , 'Study'];
 
   @override
   Widget build(BuildContext context) {
@@ -205,12 +205,15 @@ class _CreateTodoState extends State<CreateTodo> {
             children: <Widget>[
               RaisedButton(
               onPressed: () async {
-                  if (widget.username !=null ){
+                  if (widget.username != '' ){
 
                   if (_createTaskFormKey.currentState.validate()) {
                     
                                 _createTaskFormKey.currentState.save();
-                                    
+
+                                //Randomly selecting catagory
+                                String catagory = (catagories..shuffle()).first;
+
                                 await todoApi.createTodo(
                                       Todo(
                                         title: _taskController.text,
@@ -274,6 +277,8 @@ class _CreateTodoState extends State<CreateTodo> {
                       if (_createTaskFormKey.currentState.validate()) {
                     
                                 _createTaskFormKey.currentState.save();
+
+                                String catagory = (catagories..shuffle()).first;
                                     
                                 await todoApi.createTodo(
                                       Todo(
@@ -283,7 +288,8 @@ class _CreateTodoState extends State<CreateTodo> {
                                         username: _usernameController.text,
                                     ));
 
-                                    Navigator.pop(context);
+                                await Navigator.pop(context, true);
+                                await Navigator.pop(context);
                           }
 
                         },

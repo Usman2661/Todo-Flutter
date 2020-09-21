@@ -8,19 +8,21 @@ class TodoApiService {
   // Client client = Client();
 
  Future<List<Todo>> getTodos() async {
-   
-    Response res = await get(baseUrl);
 
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-      List<Todo> todos = body.map((dynamic item) => Todo.fromJson(item)).toList();
-      return todos;
-    } else {
-      throw "Failed to load todo list";
-    }
+   try{
+    Response res = await get(baseUrl);
+    List<dynamic> body = jsonDecode(res.body);
+    List<Todo> todos = body.map((dynamic item) => Todo.fromJson(item)).toList();
+    return todos;
+   }
+   catch (e){
+      throw "Failed to load todo list $e";
+   }
+   
   }
 
 Future<Todo> createTodo(Todo todo ) async {
+
     Map data = {
       'title': todo.title,
       'completed': todo.completed,
@@ -28,18 +30,22 @@ Future<Todo> createTodo(Todo todo ) async {
       'username': todo.username
     };
 
-    final Response response = await post(
+    try{
+
+      final Response response = await post(
       baseUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(data),
     );
-    if (response.statusCode == 201) {
       return Todo.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to Create Task');
     }
+    catch(e){
+      throw Exception('Failed to Create Task $e');
+
+    }
+   
   }
 
   Future<Todo> updateTodo(int id, Todo todo) async {
@@ -50,6 +56,8 @@ Future<Todo> createTodo(Todo todo ) async {
      'username': todo.username
     };
 
+    try{
+
     final Response response = await put(
       '$baseUrl/$id',
       headers: <String, String>{
@@ -57,21 +65,24 @@ Future<Todo> createTodo(Todo todo ) async {
       },
       body: jsonEncode(data),
     );
-    if (response.statusCode == 200) {
-      return Todo.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to update task');
+      
+    return Todo.fromJson(json.decode(response.body));
+
     }
+    catch(e){
+      throw Exception('Failed to update task $e');
+    } 
   }
 
   Future<void> deleteTodo(int id) async {
-    Response res = await delete('$baseUrl/$id');
 
-    if (res.statusCode == 200) {
-      print("Case deleted");
-    } else {
-      throw "Failed to delete a case.";
+    try{
+      
+        Response res = await delete('$baseUrl/$id');
+        print("Todo deleted");
     }
-
+    catch(e){
+      throw 'Failed to delete a task $e';
+    }
   }
 }

@@ -32,8 +32,44 @@ class _TodoListState extends State<TodoList> {
     ListView.builder(
                 itemCount:  widget.todos == null ? 0 : widget.todos.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return
-                        Card(
+                  return Dismissible(
+                    key: ObjectKey(widget.todos[index]),
+                    background: Container(
+                      color: Colors.red, 
+                      child:  Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size: 36.0,
+                    ),
+                      ),
+                  confirmDismiss: (DismissDirection direction) async {
+                  return await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Delete Task"),
+                        content:Text('Are you sure you wish to delete ${widget.todos[index].title}?'),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () async {
+                              await todoApi.deleteTodo(widget.todos[index].id);
+                              await widget.onUpdateTodoCallback();
+
+                               Navigator.of(context).pop(true);
+                            },
+                            child: const Text("DELETE")
+                          ),
+                          FlatButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text("CANCEL"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                  
+                    child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -78,10 +114,13 @@ class _TodoListState extends State<TodoList> {
                           decoration: widget.todos[index].completed ? TextDecoration.lineThrough : null,
                             ),
                           ),
-                        ],),
+                        ],
+                        ),
                       )
                     ),
-                    );     
+                    ) ,
+                    );
+                             
                 });
   }
 }

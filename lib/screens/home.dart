@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
 
   final TodoApiService todoApi = TodoApiService();
   List<Todo> todos;
-  String username;
+  String username = '';
 
 
   Future loadTodos() async{
@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
         this.todos = todos;
       });
 
-      if (todos.length>0){
+      if (todos.length > 0){
 
         Todo firstTodo = todos.first;
         if(firstTodo.username != null){
@@ -35,6 +35,13 @@ class _HomeState extends State<Home> {
                  this.username = firstTodo.username;
                });
         }
+      }
+      if (todos.length == 0){
+
+        setState(() {
+              this.username = '';
+        });
+  
       }
 
     return todos;
@@ -44,7 +51,6 @@ class _HomeState extends State<Home> {
     await loadTodos();
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -95,7 +101,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          Text( 'Whats up, $username',
+          Text( 'Whats up ${username}',
           style: TextStyle(
             color:Colors.grey[800],
             fontSize: 28.0,
