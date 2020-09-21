@@ -2,14 +2,19 @@ import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/Services/api/api_todo.dart';
 import 'package:todo/Services/models/todo.dart';
-import 'package:todo/Widgets/ListCard.dart';
 import 'package:todo/screens/home.dart';
 
 class TodoList extends StatefulWidget {
 
   final List<Todo> todos;
-  final Function() notifyParent;
-  TodoList({Key key, this.todos , @required this.notifyParent}) : super(key: key);
+  Function() onUpdateTodoCallback;
+
+  // final Function() notifyParent;
+  // , @required this.notifyParent
+  // TodoList({Key key, this.todos }) : super(key: key);
+
+    TodoList(this.todos, this.onUpdateTodoCallback);
+
 
 
   @override
@@ -17,6 +22,7 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+
 
   final TodoApiService todoApi = TodoApiService();
 
@@ -44,9 +50,9 @@ class _TodoListState extends State<TodoList> {
                         CircularCheckBox(
                         value: widget.todos[index].completed,
                         materialTapTargetSize: MaterialTapTargetSize.padded,
-                        onChanged: (value) {
+                        onChanged: (value) async {
                         
-                          todoApi.updateTodo(widget.todos[index].id,
+                          await todoApi.updateTodo(widget.todos[index].id,
                            Todo(
                              title:widget.todos[index].title ,
                              completed: value,
@@ -55,7 +61,7 @@ class _TodoListState extends State<TodoList> {
                             ) 
                            );
 
-                          // widget.notifyParent();
+                          await widget.onUpdateTodoCallback();
 
                         },
                           checkColor: Colors.white,
@@ -77,25 +83,5 @@ class _TodoListState extends State<TodoList> {
                     ),
                     );     
                 });
-      //   ListView(
-      //   children: <Widget>[
-      //     TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),
-      //      TodoCard(),
-      //     SizedBox(height:5.0),  
-      //   ],
-      // ); 
   }
 }

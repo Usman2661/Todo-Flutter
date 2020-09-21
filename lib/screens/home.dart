@@ -6,7 +6,6 @@ import 'package:todo/Services/models/todo.dart';
 import 'package:todo/Widgets/CatagoryList.dart';
 import 'package:todo/Widgets/Navigation.dart';
 import 'package:todo/Widgets/TodoList.dart';
-import 'package:todo/Widgets/todoListing.dart';
 import 'package:todo/screens/createTodo.dart';
 
 class Home extends StatefulWidget {
@@ -18,22 +17,32 @@ class _HomeState extends State<Home> {
 
   final TodoApiService todoApi = TodoApiService();
   List<Todo> todos;
+  String username;
 
 
-  Future loadTodos() {
-    Future<List<Todo>> todos =  todoApi.getTodos();
-    todos.then((todos) {
+  Future loadTodos() async{
+    List<Todo> todos =  await todoApi.getTodos();
+
       setState(() {
         this.todos = todos;
       });
-    });
+
+      if (todos.length>0){
+
+        Todo firstTodo = todos.first;
+        if(firstTodo.username != null){
+                 setState(() {
+                 this.username = firstTodo.username;
+               });
+        }
+      }
+
     return todos;
   }
 
-  refreshOnUpdate() {
-  loadTodos();
+  onUpdateTodoCallBack() async{
+    await loadTodos();
   }
-  
 
   
   @override
@@ -49,14 +58,13 @@ class _HomeState extends State<Home> {
       todos = List<Todo>();
     }
 
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
            Navigator.push(
            context,
-           MaterialPageRoute(builder: (context) => CreateTodo()),
+           MaterialPageRoute(builder: (context) => CreateTodo(username: username)),
           ).then((_) {
 
           Timer(Duration(seconds: 1), () {
@@ -87,7 +95,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          Text( 'Whats up, Usman',
+          Text( 'Whats up, $username',
           style: TextStyle(
             color:Colors.grey[800],
             fontSize: 28.0,
@@ -114,9 +122,8 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height:20.0),
 
-
              Expanded(child:
-                todos.length > 0? TodoList(todos: todos , notifyParent: refreshOnUpdate(),):
+                todos.length > 0? TodoList(todos, onUpdateTodoCallBack):
                 new Center(child:
                 new Text('No Todos Found', style: Theme.of(context).textTheme.title)),
           )

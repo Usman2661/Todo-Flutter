@@ -5,6 +5,9 @@ import 'package:todo/Services/models/todo.dart';
 
 
 class CreateTodo extends StatefulWidget {
+  final String username;
+  CreateTodo({Key key, @required this.username}) : super(key: key);
+  
   @override
   _CreateTodoState createState() => _CreateTodoState();
 }
@@ -201,96 +204,121 @@ class _CreateTodoState extends State<CreateTodo> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               RaisedButton(
-              onPressed: () {
+              onPressed: () async {
+                  if (widget.username !=null ){
+
                   if (_createTaskFormKey.currentState.validate()) {
-  
-                  _createTaskFormKey.currentState.save();
-                  todoApi.createTodo(
-                    Todo(
-                      title: _taskController.text,
-                      completed: completed,
-                      catagory: catagory,
-                      username: 'Usman',
-                  ));
+                    
+                                _createTaskFormKey.currentState.save();
+                                    
+                                await todoApi.createTodo(
+                                      Todo(
+                                        title: _taskController.text,
+                                        completed: completed,
+                                        catagory: catagory,
+                                        username: widget.username,
+                                    ));
+
+                                    Navigator.pop(context, true);
+                          }
+                  }
+                  else {
+
+                  showDialog(context: context, child:
+                   AlertDialog(
+                    title:  Center(child: Text("Additional Details")),
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                    content:
+                    Container(
+                    height: 140.0,
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,  
+                    children: <Widget>[
+                    TextFormField(
+                    autofocus: true,
+                    cursorColor: Colors.blue[900],
+                    cursorWidth: 5.0,
+                    controller: _usernameController,
+                    validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter username';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
                   
-                  Navigator.pop(context, true) ;
-                }
+                  },
+                    style: 
+                    TextStyle(
+                    fontSize: 20.0,
+                    height: 2.0,
+                    color: Colors.grey[700],
+                    decoration: TextDecoration.none                
+                    ),
+                   decoration:  InputDecoration.collapsed(
+                    hintText: 'Enter Your Name',
+                    border: InputBorder.none,
+                    ),
+                    ),
+                    SizedBox(height:20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                    RaisedButton(
+                        elevation: 2.0,
+                        color: Colors.blue[900],
+                        onPressed: () async {
+
+
+                      if (_createTaskFormKey.currentState.validate()) {
+                    
+                                _createTaskFormKey.currentState.save();
+                                    
+                                await todoApi.createTodo(
+                                      Todo(
+                                        title: _taskController.text,
+                                        completed: completed,
+                                        catagory: catagory,
+                                        username: _usernameController.text,
+                                    ));
+
+                                    Navigator.pop(context);
+                          }
+
+                        },
+                        child:
+                        Row(
+                        children: <Widget>[
+                        Text(
+                          'Ok',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                            ),    
+                            // SizedBox(width: 10.0),
+                            // Icon(Icons.expand_less, color: Colors.white,),
+                            ],
+                            ),      
+                            padding: EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
+                            shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        ),
+                        ],
+                        )
+                        ],
+                        ), 
+                        )
+                      )
+                  );
+
+                  }
+                  
                                 
 
-                  // if (title != null ){
-                  //       showDialog(context: context, child:
-                  //  AlertDialog(
-                  //   title:  Center(child: Text("Additional Details")),
-                  //   shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                  //   content:
-                  //   Container(
-                  //   height: 140.0,
-                  //   child: Column(
-                  //   mainAxisAlignment: MainAxisAlignment.start,  
-                  //   children: <Widget>[
-                  //   TextFormField(
-                  //   autofocus: true,
-                  //   cursorColor: Colors.blue[900],
-                  //   cursorWidth: 5.0,
-                  //   controller: _usernameController,
-                  //   validator: (value) {
-                  //   if (value.isEmpty) {
-                  //     return 'Please enter task';
-                  //   }
-                  //   return null;
-                  // },
-                  // onChanged: (value) {
-                  
-                  // },
-                  //   style: 
-                  //   TextStyle(
-                  //   fontSize: 20.0,
-                  //   height: 2.0,
-                  //   color: Colors.grey[700],
-                  //   decoration: TextDecoration.none                
-                  //   ),
-                  //  decoration:  InputDecoration.collapsed(
-                  //   hintText: 'Enter Your Name',
-                  //   border: InputBorder.none,
-                  //   ),
-                  //   ),
-                  //   SizedBox(height:20.0),
-                  //   Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: <Widget>[
-                  //   RaisedButton(
-                  //       elevation: 2.0,
-                  //       color: Colors.blue[900],
-                  //       onPressed: () {},
-                  //       child:
-                  //       Row(
-                  //       children: <Widget>[
-                  //       Text(
-                  //         'Ok',
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 18.0,
-                  //         ),
-                  //           ),    
-                  //           // SizedBox(width: 10.0),
-                  //           // Icon(Icons.expand_less, color: Colors.white,),
-                  //           ],
-                  //           ),      
-                  //           padding: EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
-                  //           shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(30.0),
-                  //       ),
-                  //       ),
-                  //       ],
-                  //       )
-                  //       ],
-                  //       ), 
-                  //       )
-                  //     )
-                  // );
-
-                  // }
+               
                  
 
             
