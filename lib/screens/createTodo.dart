@@ -321,13 +321,7 @@ class _CreateTodoState extends State<CreateTodo> {
                   );
 
                   }
-                  
-                                
-
-               
-                 
-
-            
+          
               },
               elevation: 2.0,
               color: Colors.blue[900],

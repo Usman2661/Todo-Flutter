@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   final TodoApiService todoApi = TodoApiService();
   List<Todo> todos;
   String username = '';
-
+  List<dynamic> catagoryCount = [];
 
   Future loadTodos() async{
     List<Todo> todos =  await todoApi.getTodos();
@@ -43,6 +43,40 @@ class _HomeState extends State<Home> {
         });
   
       }
+
+    List<Todo> catagory =  await todoApi.getUserCatagories(this.username);
+    
+    //Inserting all catagories into a list
+    List<String> catagories = [];
+    catagory.forEach((catagory){
+      catagories.add(catagory.catagory);
+    });
+
+    List<dynamic> catagoryCount = [];
+
+    var catagoryCountMap = Map();
+
+
+   catagories.forEach((element) {
+    if(!catagoryCountMap.containsKey(element)) {
+      catagoryCountMap[element] = 1;
+    } else {
+      catagoryCountMap[element] +=1;
+    }
+  });
+
+
+   catagoryCountMap.forEach((key,value) {
+      var catagoryCountResults = {
+          'catagory': key,
+          'count': value,
+      };
+      catagoryCount.add(catagoryCountResults);
+     }); 
+
+      setState(() {
+              this.catagoryCount = catagoryCount;
+        });
 
     return todos;
   }
@@ -117,7 +151,8 @@ class _HomeState extends State<Home> {
             ),
             ),
             SizedBox(height: 20.0),
-            CatagoryList(),
+            // CatagoryList(),
+            CatagoryList(this.catagoryCount),
             SizedBox(height:40.0),
             Text( 'My Tasks',
             style: TextStyle(

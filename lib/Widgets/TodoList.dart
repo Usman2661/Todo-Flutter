@@ -9,14 +9,9 @@ class TodoList extends StatefulWidget {
   final List<Todo> todos;
   Function() onUpdateTodoCallback;
 
-  // final Function() notifyParent;
-  // , @required this.notifyParent
-  // TodoList({Key key, this.todos }) : super(key: key);
 
-    TodoList(this.todos, this.onUpdateTodoCallback);
-
-
-
+  TodoList(this.todos, this.onUpdateTodoCallback);
+  
   @override
   _TodoListState createState() => _TodoListState();
 }

@@ -5,6 +5,7 @@ import 'package:todo/Services/models/todo.dart';
 
 class TodoApiService {
   final String baseUrl = "http://192.168.1.15:8080/todos";
+  final String catagoryURl  = "http://192.168.1.15:8080/catagory";
   // Client client = Client();
 
  Future<List<Todo>> getTodos() async {
@@ -13,6 +14,22 @@ class TodoApiService {
     Response res = await get(baseUrl);
     List<dynamic> body = jsonDecode(res.body);
     List<Todo> todos = body.map((dynamic item) => Todo.fromJson(item)).toList();
+    return todos;
+   }
+   catch (e){
+      throw "Failed to load todo list $e";
+   }
+   
+  }
+
+  
+ Future<List<Todo>> getUserCatagories(String username) async {
+
+   try{
+    Response res = await get('$catagoryURl/$username');
+    List<dynamic> body = jsonDecode(res.body);
+    List<Todo> todos = body.map((dynamic item) => Todo.fromJson(item)).toList();
+
     return todos;
    }
    catch (e){
