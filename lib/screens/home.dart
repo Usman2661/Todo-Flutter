@@ -24,24 +24,36 @@ class _HomeState extends State<Home> {
   Future loadTodos() async{
     List<Todo> todos =  await todoApi.getTodos();
 
+
+      if (mounted) {
+
       setState(() {
         this.todos = todos;
       });
+
+      }
 
       if (todos.length > 0){
 
         Todo firstTodo = todos.first;
         if(firstTodo.username != null){
+                if (mounted) {
+
                  setState(() {
                  this.username = firstTodo.username;
                });
+                }
         }
       }
       if (todos.length == 0){
 
+        if (mounted) {
+
         setState(() {
               this.username = '';
         });
+
+        }
   
       }
 
@@ -76,9 +88,11 @@ class _HomeState extends State<Home> {
 
      }); 
 
+      if (mounted) {
       setState(() {
               this.catagoryCount = catagoryCount;
         });
+      }
 
     return todos;
   }

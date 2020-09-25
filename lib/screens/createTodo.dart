@@ -145,9 +145,12 @@ class _CreateTodoState extends State<CreateTodo> {
                 value: isChecked,
                 // materialTapTargetSize: MaterialTapTargetSize.,
                 onChanged: (value) {
+                        if (mounted) {
+
                             setState(() {
                       isChecked = value;
                     });
+                        }
                 },
                   checkColor: Colors.blue[900],
                   inactiveColor: Colors.blue[900],
