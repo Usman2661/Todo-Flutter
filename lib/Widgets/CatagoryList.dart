@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Services/models/catagoryCount.dart';
 
 class CatagoryList extends StatefulWidget {
   @override
   _CatagoryListState createState() => _CatagoryListState();
 
-  final List<dynamic> catagoryCount;
+  final List<CatagoryCount> catagoryCount;
   CatagoryList(this.catagoryCount);
 }
 
 class _CatagoryListState extends State<CatagoryList> {
   @override
   Widget build(BuildContext context) {
-
-    // returnListView.builder(
-    //             itemCount:  widget.catagoryCount == null ? 0 : widget.catagoryCount.length,
-    //             itemBuilder: (BuildContext context, int index) {
-
-    //             });
-
-    return       
-    SingleChildScrollView(
+    print(widget.catagoryCount);
+    print(widget.catagoryCount.length);
+    return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount:  widget.catagoryCount == null ? 0 : widget.catagoryCount.length,
+                itemBuilder: (BuildContext context, int index) {
+      return    SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
             children: <Widget>[
@@ -37,7 +36,7 @@ class _CatagoryListState extends State<CatagoryList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                   Text(
-                    '8 Tasks',
+                    '${widget.catagoryCount[index].count.toString()} Tasks',
                   style: TextStyle(
                   color:Colors.grey[500],
                   fontSize: 14.0,
@@ -46,7 +45,8 @@ class _CatagoryListState extends State<CatagoryList> {
                   ),
                   SizedBox(height: 10.0),
                     Text(
-                    'Home',
+                      widget.catagoryCount[index].catagory
+                    ,
                   style: TextStyle(
                   color:Colors.black,
                   fontSize: 18.0,
@@ -70,5 +70,8 @@ class _CatagoryListState extends State<CatagoryList> {
             ],
               ),
             );
+                });
+
+    
   }
 }

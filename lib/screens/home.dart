@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:todo/Services/api/api_todo.dart';
+import 'package:todo/Services/models/catagoryCount.dart';
 import 'package:todo/Services/models/todo.dart';
 import 'package:todo/Widgets/CatagoryList.dart';
 import 'package:todo/Widgets/Navigation.dart';
@@ -18,7 +19,7 @@ class _HomeState extends State<Home> {
   final TodoApiService todoApi = TodoApiService();
   List<Todo> todos;
   String username = '';
-  List<dynamic> catagoryCount = [];
+  List<CatagoryCount> catagoryCount = [];
 
   Future loadTodos() async{
     List<Todo> todos =  await todoApi.getTodos();
@@ -52,7 +53,7 @@ class _HomeState extends State<Home> {
       catagories.add(catagory.catagory);
     });
 
-    List<dynamic> catagoryCount = [];
+    List<CatagoryCount> catagoryCount = [];
 
     var catagoryCountMap = Map();
 
@@ -67,11 +68,12 @@ class _HomeState extends State<Home> {
 
 
    catagoryCountMap.forEach((key,value) {
-      var catagoryCountResults = {
-          'catagory': key,
-          'count': value,
-      };
-      catagoryCount.add(catagoryCountResults);
+
+      catagoryCount.add( CatagoryCount(
+        catagory: key,
+        count: value
+      ));
+
      }); 
 
       setState(() {
@@ -150,10 +152,10 @@ class _HomeState extends State<Home> {
             fontWeight: FontWeight.bold
             ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 10.0),
             // CatagoryList(),
-            CatagoryList(this.catagoryCount),
-            SizedBox(height:40.0),
+            Expanded(flex: 1, child:CatagoryList(this.catagoryCount)),
+            SizedBox(height:30.0),
             Text( 'My Tasks',
             style: TextStyle(
             color:Colors.grey[500],
@@ -163,7 +165,7 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height:20.0),
 
-             Expanded(child:
+             Expanded(flex:4 ,child:
                 todos.length > 0? TodoList(todos, onUpdateTodoCallBack):
                 new Center(child:
                 new Text('No Todos Found', style: Theme.of(context).textTheme.title)),
