@@ -10,16 +10,16 @@
 
 # App Screenshots
 
-# Home Screen
+## Home Screen
 ![](images/homeScreen.PNG)
 
-# Create Todo
+## Create Todo
 ![](images/createTask.PNG)
 
-# Delete Todo
+## Delete Todo
 ![](images/delete.PNG)
 
-# Side Nav
+## Side Nav
 ![](images/sideNav.PNG)
 
 
